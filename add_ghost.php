@@ -4,17 +4,10 @@ include("mongo.php");
 // JSON content header
 header('Content-Type: application/json');
 
-/*
-echo $_POST["name"]."\n";
-echo $_POST["user"]."\n";
-echo $_POST["longitude"]."\n";
-echo $_POST["latitude"]."\n";
-*/
-
 // Get ghosts collection
 $collection = $db->ghosts;
 
-if(!(isset($_POST['name']) && isset($_POST['user']) && isset($_POST['longitude']) && isset($_POST['latitude']))) {
+if(!(isset($_POST['name']) && isset($_POST['user']) && isset($_POST['longitude']) && isset($_POST['latitude']) && isset($_POST['drawable']))) {
     $result = array(
 		    "status" => "fail",
 		    "data" => array(
@@ -33,15 +26,26 @@ if(!(isset($_POST['name']) && isset($_POST['user']) && isset($_POST['longitude']
 				    )
 		    );
     echo json_encode($result);
-  } else {
+  } 
+  else {
+    $doc = array(
+	       "name" => $_POST['name'], 
+	       "user" => $_POST['user'],
+	       "drawable" => $_POST['drawable'],
+	       "location" => array(
+				   "longitude"=>$_POST['longitude'], 
+				   "latitude"=>$_POST['latitude']
+				   )
+	       );
 
-  $doc = array("name" => $_POST['name'], "user" => $_POST['user'], "location" => array("longitude"=>$_POST['longitude'], "latitude"=>$_POST['latitude']));
-  $collection->insert($doc);
+    $collection->insert($doc);
+  
     $result = array("status" => "success",
 		    "data" => array(
 				    "message" => "Ghost added"
 				    )
 		    );
+
     echo json_encode($result);
   }
 }
