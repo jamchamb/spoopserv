@@ -5,16 +5,16 @@ include("mongo.php");
 header('Content-Type: application/json');
 
 /*
-echo $_GET["name"]."\n";
-echo $_GET["user"]."\n";
-echo $_GET["longitude"]."\n";
-echo $_GET["latitude"]."\n";
+echo $_POST["name"]."\n";
+echo $_POST["user"]."\n";
+echo $_POST["longitude"]."\n";
+echo $_POST["latitude"]."\n";
 */
 
 // Get ghosts collection
 $collection = $db->ghosts;
 
-if(!(isset($_GET['name']) && isset($_GET['user']) && isset($_GET['longitude']) && isset($_GET['latitude']))) {
+if(!(isset($_POST['name']) && isset($_POST['user']) && isset($_POST['longitude']) && isset($_POST['latitude']))) {
     $result = array(
 		    "status" => "fail",
 		    "data" => array(
@@ -23,7 +23,19 @@ if(!(isset($_GET['name']) && isset($_GET['user']) && isset($_GET['longitude']) &
 		    );
     echo json_encode($result);
   } else {
-  $doc = array("name" => $_GET['name'], "user" => $_GET['user'], "location" => array("longitude"=>$_GET['longitude'], "latitude"=>$_GET['latitude']));
+
+  $findme = array("name" => $_POST['name']);
+  $cursor = $collection->find($findme);
+  if($cursor->count(true) > 0) {
+    $result = array("status" => "fail",
+		    "data" => array(
+				    "message" => "Name taken"
+				    )
+		    );
+    echo json_encode($result);
+  } else {
+
+  $doc = array("name" => $_POST['name'], "user" => $_POST['user'], "location" => array("longitude"=>$_POST['longitude'], "latitude"=>$_POST['latitude']));
   $collection->insert($doc);
     $result = array("status" => "success",
 		    "data" => array(
@@ -32,6 +44,6 @@ if(!(isset($_GET['name']) && isset($_GET['user']) && isset($_GET['longitude']) &
 		    );
     echo json_encode($result);
   }
-
+}
 
 ?>
