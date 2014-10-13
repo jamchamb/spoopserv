@@ -1,0 +1,28 @@
+body {
+  background-color: #660066;
+}
+
+a {
+  color: white;
+}
+
+a:hover {
+  color: yellow;
+}
+
+.spooped-title {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  color: white;
+}
+
+.spooped-title h1 {
+  text-shadow: 0px 0px 10px #cccc00;
+}
+
+.get-app {
+  color: white;
+  text-align: center;
+}
