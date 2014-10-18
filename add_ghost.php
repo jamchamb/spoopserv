@@ -1,65 +1,48 @@
 <?php
+/**
+ * Add new ghosts.
+ * @author James Chambers <jameschambers2@gmail.com>
+ * @package spoopserv
+ */
+include("jsend.php");
 include("mongo.php");
 
-// JSON content header
-header('Content-Type: application/json');
-
-// Get ghosts collection
+/* Get ghosts collection from MongoDB */
 $collection = $db->ghosts;
 
-if(!
-   (isset($_POST['name']) &&
-    isset($_POST['user']) &&
-    isset($_POST['longitude']) &&
-    isset($_POST['latitude']) &&
-    isset($_POST['drawable'])
-    )
-   ) {
-  $result = 
-    array(
-	  "status" => "fail",
-	  "data" => array(
-			  "message" => "Not all fields were supplied"
-			  )
-	  );
+/* Make sure all fields are defined */
+if(!isset($_POST['name'], $_POST['user'],
+	  $_POST['longitude'], $_POST['latitude'],
+	  $_POST['drawable'])) {
+  /* TODO: Empty checks & is_numeric checks */
+  jsend_message(JSEND_FAIL, "Not all fields were supplied");
+  exit();
+}
 
-  echo json_encode($result);
-} else {
-  $findme = array("name" => $_POST['name']);
-  $cursor = $collection->find($findme);
-  
-  if($cursor->count(true) > 0) {
-    $result =
-      array("status" => "fail",
-	    "data" => array(
-			    "message" => "Name taken"
-			    )
-	    );
+/* See if a ghost with the desired name already exists */
+$query = array("name" => $_POST['name']);
+$cursor = $collection->find($query);
 
-    echo json_encode($result);
-  } else {
-    $doc =
-      array(
-	    "name" => $_POST['name'], 
-	    "user" => $_POST['user'],
-	    "drawable" => $_POST['drawable'],
-	    "loc" => array(
-			   "type" => "Point",
-			   "coordinates" => array(floatval($_POST['longitude']), floatval($_POST['latitude']))
-		  )
-	    );
+/* Found a ghost with that name already */
+if($cursor->count(true) > 0) {
+  jsend_message(JSEND_FAIL, "Name taken");
+  exit();
+}
+/* Name not taken, add the ghost */
+else {
+  $doc = array();
+  $doc["name"] = $_POST['name'];
+  $doc["user"] = $_POST['user'];
+  $doc["drawable"] = $_POST['drawable'];
+  $doc["loc"] = array();
+  $doc["loc"]["type"] = "Point";
+  $doc["loc"]["coordinates"] =
+    array(floatval($_POST['longitude']), floatval($_POST['latitude']));
 
-    $collection->insert($doc);
+  $collection->insert($doc);
 
-    $result =
-      array("status" => "success",
-	    "data" => array(
-			    "message" => "Ghost added"
-			    )
-	    );
-
-    echo json_encode($result);
-  }
+  jsend_message(JSEND_SUCCESS, "Ghost added");
+  exit();
 }
 
 ?>

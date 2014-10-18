@@ -1,20 +1,25 @@
 <?php
+/**
+ * List all ghosts.
+ * @author James Chambers <jameschambers2@gmail.com>
+ * @package spoopserv
+ */
+include("jsend.php");
 include("mongo.php");
 
-// JSON content header
-header('Content-Type: application/json');
-
-// Get 'ghosts' collection and add them all to an array
+/* Get ghosts collection */
 $collection = $db->ghosts;
 
+/* Add all ghosts to an array */
 $result = array();
 $cursor = $collection->find();
 foreach($cursor as $ghost) {
-  // Put the object ID into "id" field
+  /* Put the object ID into "id" field */
   $ghost["id"] = $ghost["_id"]->{'$id'};
   unset($ghost["_id"]);
   
-  // Convert the GeoJSON field to what the client expects right now (temporary?)
+  /* Convert the GeoJSON field to what the client expects
+   * right now (temporary?) */
   $ghost["location"] = array(
     "longitude" => $ghost["loc"]["coordinates"][0],
     "latitude" => $ghost["loc"]["coordinates"][1]
@@ -24,15 +29,9 @@ foreach($cursor as $ghost) {
   $result[] = $ghost;
 }
 
-// Output them all in JSend format
-$out = array(
-  "status" => "success",
-  "data" => array(
-    "ghosts" => $result
-  )
-);
-
-echo json_encode($out);
+/* Output them all in JSend format */
+$data = array("ghosts" => $result);
+jsend_response(JSEND_SUCCESS, $data);
 
 ?>
 
