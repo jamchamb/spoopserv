@@ -4,8 +4,8 @@
  * @author James Chambers <jameschambers2@gmail.com>
  * @package spoopserv
  */
-include("jsend.php");
-include("mongo.php");
+require 'jsend.php';
+require 'mongo.php';
 
 /* Get ghosts collection from MongoDB */
 $collection = $db->ghosts;

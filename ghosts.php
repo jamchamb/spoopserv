@@ -4,8 +4,8 @@
  * @author James Chambers <jameschambers2@gmail.com>
  * @package spoopserv
  */
-include("jsend.php");
-include("mongo.php");
+require 'jsend.php';
+require 'mongo.php';
 
 /* Get ghosts collection */
 $collection = $db->ghosts;
@@ -19,7 +19,7 @@ foreach($cursor as $ghost) {
   unset($ghost["_id"]);
   
   /* Convert the GeoJSON field to what the client expects
-   * right now (temporary?) */
+   * right now (temporary?)  */
   $ghost["location"] = array(
     "longitude" => $ghost["loc"]["coordinates"][0],
     "latitude" => $ghost["loc"]["coordinates"][1]
