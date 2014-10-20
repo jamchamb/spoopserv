@@ -11,11 +11,19 @@ require 'mongo.php';
 $collection = $db->ghosts;
 
 /* Make sure all fields are defined */
-if(!isset($_POST['name'], $_POST['user'],
+$params = array($_POST['name'], $_POST['user'],
 	  $_POST['longitude'], $_POST['latitude'],
-	  $_POST['drawable'])) {
-  /* TODO: Empty checks & is_numeric checks */
-  jsend_message(JSEND_FAIL, "Not all fields were supplied");
+	  $_POST['drawable']);
+foreach($params as $param) {
+  if(empty(trim($param))) {
+    jsend_message(JSEND_FAIL, "Not all fields were supplied");
+    exit();
+  }
+}
+
+/* Make sure coordinates are numeric */
+if(!is_numeric($_POST['longitude']) || !is_numeric($_POST['latitude'])) {
+  jsend_message(JSEND_FAIL, "Invalid coordinates");
   exit();
 }
 
