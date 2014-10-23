@@ -8,6 +8,18 @@ $m = new MongoClient();
 $db = $m->spoopdb;
 
 /**
+ * Cast all values in an associative array to strings.
+ * This is for preventing arrays from being passed in through
+ * POST or GET parameters.
+ * @param array params
+ */
+function params_to_string(&$param_array) {
+  foreach($param_array as $key => $value) {
+    $param_array[$key] = (string) $value;
+  }
+}
+
+/**
  * Transform MongoDB ID object into simple "id" field.
  * @param Object $doc MongoDB document
  */

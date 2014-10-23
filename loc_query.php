@@ -10,6 +10,9 @@ require 'mongo.php';
 /* Get ghosts collection */
 $collection = $db->ghosts;
 
+/* Cast all POST values to strings to prevent query injection */
+params_to_string($_POST);
+
 /* Check that coordinate parameters are set */
 $params = array($_POST['longitude'], $_POST['latitude']);
 foreach($params as $param) {
