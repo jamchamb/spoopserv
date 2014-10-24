@@ -10,6 +10,9 @@ require 'mongo.php';
 /* Get ghosts collection from MongoDB */
 $collection = $db->ghosts;
 
+/* Cast all POST values to strings to prevent query injection */
+params_to_string($_POST);
+
 /* Make sure all fields are defined */
 $params = array($_POST['name'], $_POST['user'],
 	  $_POST['longitude'], $_POST['latitude'],
