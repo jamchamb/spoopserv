@@ -18,7 +18,7 @@ $params = array($_POST['name'], $_POST['user'],
 	  $_POST['longitude'], $_POST['latitude'],
 	  $_POST['drawable']);
 foreach($params as $param) {
-  if(empty(trim((string) $param))) {
+  if(empty(trim($param))) {
     jsend_message(JSEND_FAIL, "Not all fields were supplied");
     exit();
   }
