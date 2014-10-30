@@ -1,0 +1,12 @@
+<?php
+function string_parameters(&$param_array) {
+  foreach($param_array as $key => $value) {
+    $param_array[$key] = (string) $value;
+  }
+}
+
+var_dump($_GET);
+echo "<br/>\n";
+string_parameters($_GET);
+var_dump($_GET);
+?>
