@@ -1,12 +1,7 @@
 <?php
-function string_parameters(&$param_array) {
-  foreach($param_array as $key => $value) {
-    $param_array[$key] = (string) $value;
-  }
-}
+require '../mongo.php';
 
 var_dump($_GET);
 echo "<br/>\n";
-string_parameters($_GET);
-var_dump($_GET);
+var_dump(params_to_string($_GET));
 ?>

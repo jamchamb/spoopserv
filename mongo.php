@@ -9,14 +9,16 @@ $db = $m->spoopdb;
 
 /**
  * Cast all values in an associative array to strings.
- * This is for preventing arrays from being passed in through
- * POST or GET parameters.
+ * This is for preventing arrays from being passed in
+ * through POST or GET parameters.
  * @param array params
  */
-function params_to_string(&$param_array) {
+function params_to_string($param_array) {
+  $result = array();
   foreach($param_array as $key => $value) {
-    $param_array[$key] = (string) $value;
+    $result[$key] = (string) $value;
   }
+  return $result;
 }
 
 /**
