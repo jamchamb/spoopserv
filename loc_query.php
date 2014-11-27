@@ -11,10 +11,10 @@ require 'mongo.php';
 $collection = $db->ghosts;
 
 /* Cast all POST values to strings to prevent query injection */
-params_to_string($_POST);
+$cleanPOST = params_to_string($_POST);
 
 /* Check that coordinate parameters are set */
-$params = array($_POST['longitude'], $_POST['latitude']);
+$params = array($cleanPOST['longitude'], $cleanPOST['latitude']);
 foreach($params as $param) {
   if(!isset($param)) {
     jsend_message(JSEND_FAIL, "Must supply coordinates");
@@ -26,14 +26,19 @@ foreach($params as $param) {
 }
 
 /* Build nearSphere query - get ghosts within 25 meters*/
-$query = array();
-$query["loc"] = array();
-$query["loc"]['$nearSphere'] = array();
-$query["loc"]['$nearSphere']['$geometry'] =
-  array("type" => "Point",
-	"coordinates" => [floatval($_POST['longitude']),
-			  floatval($_POST['latitude'])]);
-$query["loc"]['$nearSphere']['$maxDistance'] = 25;
+$geoJsonPoint = array(
+  "type" => "Point",
+  "coordinates" => [floatval($cleanPOST['longitude']), floatval($cleanPOST['latitude'])]
+);
+
+$query = array(
+  "loc" => array(
+    '$nearSphere' => array(
+      '$geometry' => $geoJsonPoint,
+      '$maxDistance' => 25
+    )
+  )
+);
 
 /* Format ghosts and put them in an array */
 $result = array();
