@@ -4,12 +4,15 @@
   <head>
     <title>Spooped!</title>
     <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="spoopy_animation.js"></script>
   </head>
 
-  <body>
+  <body onload="drawCanvas()">
     <div class="spooped-title">
       <h1>Spooped</h1>
-      <img src="ghost.png"/>
+      <canvas id="spoopyGhost" width="178" height="276">
+        <img src="ghost.png"/>
+      </canvas>
     </div>
   </body>
 
