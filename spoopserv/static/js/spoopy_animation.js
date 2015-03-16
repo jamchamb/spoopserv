@@ -12,7 +12,7 @@ function drawCanvas() {
   if(surface.getContext) {
     ghost = new Image();
     ghost.onload = loadingComplete;
-    ghost.src="ghost.png";
+    ghost.src="/static/img/ghost.png";
   }
 }
 

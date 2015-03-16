@@ -3,18 +3,17 @@
 
   <head>
     <title>Spooped!</title>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
-    <script src="spoopy_animation.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"/>
+    <script src="{{ url_for('static', filename='js/spoopy_animation.js') }}"></script>
   </head>
 
   <body onload="drawCanvas()">
     <div class="spooped-title">
       <h1>Spooped</h1>
       <canvas id="spoopyGhost" width="178" height="276">
-        <img src="ghost.png"/>
+        <img src="{{ url_for('static', filename='img/ghost.png') }}"/>
       </canvas>
     </div>
   </body>
 
 </html>
-
