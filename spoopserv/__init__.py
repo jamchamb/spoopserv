@@ -1,1 +1,1 @@
-""" init some shit! """
+""" init! """
