@@ -15,6 +15,7 @@ setup(name='spoopserv',
     packages=['spoopserv'],
     install_requires=[
         'Flask',
-        'pymongo'
+        'pymongo',
+        'mongoengine'
     ],
     zip_safe=False)
