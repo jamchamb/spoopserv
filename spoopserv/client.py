@@ -17,7 +17,7 @@ class SpoopedClient(object):
 
     def get_ghosts_near(self, longitude, latitude):
         """Get ghosts near a given location."""
-        return Ghost.objects(loc__near_sphere=[longitude,latitude])
+        return Ghost.objects(__raw__={'loc':{'$nearSphere':{'$geometry':{'type':'Point', 'coordinates': [longitude, latitude]}, '$maxDistance': 25}}})
 
 class Ghost(Document):
     name = StringField(required=True) # ghost's name
@@ -26,7 +26,7 @@ class Ghost(Document):
     loc = PointField(required=True) # location
 
     def __str__(self):
-        return self.name
+        return "\"%s\" by %s" % (self.name, self.user)
 
     def __repr__(self):
-        return self.name
+        return "Ghost(name=%r, user=%r, drawable=%r, loc=%r)" % (self.name, self.user, self.drawable, self.loc)

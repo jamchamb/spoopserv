@@ -1,8 +1,11 @@
 from flask import Flask, render_template, g
 from client import SpoopedClient, Ghost
+from util import NegativeFloatConverter
 import json
 
 app = Flask(__name__)
+
+app.url_map.converters['float'] = NegativeFloatConverter
 
 @app.before_request
 def before_request():
