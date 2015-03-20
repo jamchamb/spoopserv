@@ -4,15 +4,29 @@
   <head>
     <title>Spooped!</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/genericons.css') }}"/>
     <script src="{{ url_for('static', filename='js/spoopy_animation.js') }}"></script>
   </head>
 
   <body onload="drawCanvas()">
-    <div class="spooped-title">
-      <h1>Spooped</h1>
-      <canvas id="spoopyGhost" width="178" height="276">
-        <img src="{{ url_for('static', filename='img/ghost.png') }}"/>
-      </canvas>
+    <div id="wrapper">
+      
+      <div id="header" class="spooped-title">
+	<h1>Spooped</h1>
+      </div>
+
+      <div id="content">
+	<center>
+	  <canvas id="spoopyGhost" width="178" height="276">
+            <img src="{{ url_for('static', filename='img/ghost.png') }}"/>
+	  </canvas>
+	</center>
+      </div>
+
+      <div id="footer">
+	<a href="https://github.com/jamchamb/spooped"><span class="genericon genericon-github"></span></a>
+      </div>
+
     </div>
   </body>
 
