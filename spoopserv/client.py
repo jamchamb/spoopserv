@@ -25,6 +25,9 @@ class Ghost(Document):
     drawable = StringField(required=True) # ghost image name
     loc = PointField(required=True) # location
 
+    def dictify(self):
+        return {'name': self.name, 'user': self.user, 'drawable': self.drawable, 'loc': self.loc}
+    
     def __str__(self):
         return "\"%s\" by %s" % (self.name, self.user)
 
