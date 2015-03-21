@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"/>
+    <script>
+      function locQuery(f) {
+          longitude = document.getElementById('qlon').value;
+          latitude = document.getElementById('qlat').value;
+          var query_url = window.location.href.replace("/test/", "/ghosts/near/" + longitude + "/" + latitude + "/");
+          window.location = query_url;
+      }
+    </script>
+  </head>
+  <body>
+    <center>
+    <h2>Add ghost</h2>
+    <form action="/ghost/" method="POST">
+      Name: <input name="name" type="text"><br/>
+      User: <input name="user" type="text"><br/>
+      Draw: <input name="drawable" type="text"><br/>
+      Long: <input name="longitude" type="text"><br/>
+      Lat: <input name="latitude" type="text"><br/>
+      <input type="submit"><br/>
+    </form>
+    <h2>Location query</h2>
+    Long: <input id="qlon" type="text"><br/>
+    Lat: <input id="qlat" type="text"><br/>
+    <input type="submit" onClick="locQuery();">
+    </center>
+  </body>
+</html>

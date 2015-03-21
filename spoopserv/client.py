@@ -2,11 +2,17 @@ from mongoengine import *
 
 class SpoopedClient(object):
 
-    def __init__(self, host=None, port=None):
+    def __init__(self, db='spoopdb', host=None, port=None):
         """Create a new client."""
 
-        connect('spoopdb', host=host, port=port)
+        connect(db, host=host, port=port)
 
+    def add_ghost(self, name, user, drawable, location):
+        """Add ghost."""
+        ghost = Ghost(name=name, user=user, drawable=drawable, loc=location)
+        ghost.save()
+        return ghost
+        
     def get_ghost(self, id):
         """Get ghost by ID."""
         return Ghost.objects.get(id=id)
@@ -20,13 +26,13 @@ class SpoopedClient(object):
         return Ghost.objects(__raw__={'loc':{'$nearSphere':{'$geometry':{'type':'Point', 'coordinates': [longitude, latitude]}, '$maxDistance': 25}}})
 
 class Ghost(Document):
-    name = StringField(required=True) # ghost's name
-    user = StringField(required=True) # creator's username
-    drawable = StringField(required=True) # ghost image name
-    loc = PointField(required=True) # location
+    name = StringField(required=True, max_length=32) # ghost's name
+    user = StringField(required=True, max_length=32) # creator's username
+    drawable = StringField(required=True, max_length=64) # ghost image name
+    loc = PointField(required=True) # location (geojson point coordinate)
 
     def dictify(self):
-        return {'name': self.name, 'user': self.user, 'drawable': self.drawable, 'loc': self.loc}
+        return {'id': str(self.id), 'name': self.name, 'user': self.user, 'drawable': self.drawable, 'loc': self.loc}
     
     def __str__(self):
         return "\"%s\" by %s" % (self.name, self.user)

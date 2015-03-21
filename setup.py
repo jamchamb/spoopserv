@@ -11,11 +11,12 @@ setup(name='spoopserv',
     url='http://github.com/jamchamb/spoopserv',
     author='James Chambers',
     author_email='jameschambers2@gmail.com',
-    license='',
     packages=['spoopserv'],
     install_requires=[
         'Flask',
         'pymongo',
         'mongoengine'
     ],
+    test_suite='nose.collector',
+    tests_require=['nose','nose-cover3'],  
     zip_safe=False)
