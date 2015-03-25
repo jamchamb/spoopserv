@@ -11,3 +11,5 @@
 
 # Virtualenv
 /venv/
+
+/build/

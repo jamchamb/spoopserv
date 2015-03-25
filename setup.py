@@ -18,5 +18,6 @@ setup(name='spoopserv',
         'mongoengine'
     ],
     test_suite='nose.collector',
-    tests_require=['nose','nose-cover3'],  
+    tests_require=['nose','nose-cover3'],
+    include_package_data=True,
     zip_safe=False)

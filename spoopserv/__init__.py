@@ -2,7 +2,7 @@ from flask import Flask, render_template, g, request, jsonify, abort
 from .client import SpoopedClient, Ghost
 from .util import NegativeFloatConverter
 
-app = Flask(__name__)
+app = Flask('spoopserv')
 
 app.url_map.converters['float'] = NegativeFloatConverter
 
