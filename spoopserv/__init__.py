@@ -19,12 +19,7 @@ def index():
 def ghost(id=None):
     if request.method == 'POST':
         try:
-            result = g.db_client.add_ghost(
-                request.form['name'],
-                request.form['user'],
-                request.form['drawable'],
-                [float(request.form['longitude']), float(request.form['latitude'])]
-            ).dictify()
+            result = g.db_client.add_ghost(request.get_json())
         except ValueError:
             abort(400)
             
@@ -52,7 +47,7 @@ def ghosts_near(lon, lat):
 
 @app.route("/test/")
 def test_page():
-    if app.debug == True:
+    if app.debug:
         return render_template('test.html')
     else:
         abort(404)

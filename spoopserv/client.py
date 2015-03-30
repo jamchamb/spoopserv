@@ -7,9 +7,9 @@ class SpoopedClient(object):
 
         connect(db, host=host, port=port)
 
-    def add_ghost(self, name, user, drawable, location):
+    def add_ghost(self, ghost_json):
         """Add ghost."""
-        ghost = Ghost(name=name, user=user, drawable=drawable, loc=location)
+        ghost = Ghost(**ghost_json)
         ghost.save()
         return ghost
         
