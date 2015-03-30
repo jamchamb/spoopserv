@@ -1,7 +1,0 @@
-<?php
-require '../mongo.php';
-
-var_dump($_GET);
-echo "<br/>\n";
-var_dump(params_to_string($_GET));
-?>
